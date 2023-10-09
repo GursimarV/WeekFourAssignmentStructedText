@@ -78,16 +78,16 @@ namespace WeekFourAssignmentStructedText.Engines
                     // Credit to Leo's In Class Demo which helped me with the for(int x = 0; x < items.Count; x++) and for (int i = 0; i < items[x].Length; i++)
                     for (int x = 0; x < items.Count; x++)
                     {
-                        sourceWrite.Write($"Line Number{x + 1} :");
+                        sourceWrite.WriteLine($"Line Number{x + 1} :");
                         for (int i = 0; i < items[x].Length; i++)
                         {
-                            sourceWrite.Write($"Field Number {i + 1}={items[x][i]} ");
+                            sourceWrite.WriteLine($"Field Number {i + 1}={items[x][i]} ");
                             if (i != items[x].Length - 1)
                             {
-                                sourceWrite.Write("==> ");
+                                sourceWrite.WriteLine("==> ");
                             }
                         }
-                        sourceWrite.Write("\n");
+                        sourceWrite.WriteLine("\n");
                     }
                 }
             }
