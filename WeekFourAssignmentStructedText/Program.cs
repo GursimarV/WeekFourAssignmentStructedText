@@ -31,10 +31,12 @@ namespace WeekFourAssignmentStructedText
                     // Adds the file to the list that will be parsed
                     goParsing.Add(new TheFiles(filePath));
                 }
-
-                Console.WriteLine("Files have been Parsed!!!");
+                
                 // Begins parsing the files in the EngineParsing class
                 EngineParsing.BeginParse(goParsing);
+
+                //Writes out that the files have been parsed just to show that it works
+                Console.WriteLine("Files have been Parsed!!!");
             }
         }
     }
