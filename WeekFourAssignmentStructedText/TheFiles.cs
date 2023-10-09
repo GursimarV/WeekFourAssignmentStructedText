@@ -24,11 +24,14 @@ namespace WeekFourAssignmentStructedText
         public char DeLimiter { get; private set; }
         public char Delimiter { get; internal set; }
 
+        // Checking the different File Types and the Delimiters with each file type and if its neither it returns nothing
         private FileType CheckType()
         {
+
                 string extension = Path.Substring(Path.LastIndexOf('.') + 1);
                 switch (extension)
                 {
+                // The different files and returns the FileType, learned from Leo's InClassDemo
                     case "csv":
                         DeLimiter = ',';
                         return FileType.CSV;

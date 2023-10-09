@@ -9,17 +9,17 @@ namespace WeekFourAssignmentStructedText.Engines
 {
     public static class EngineParsing
     {
-        // StartParsing method iterates through a collection of IParsable files and calls DoParse on each.
+        // This begins parsing the files from the list from Program class and Parses each file
         public static void BeginParse(List<IPassing> fileCollection)
         {
             foreach (var file in fileCollection)
             {
-                DoParse(file);
+                GoParsing(file);
             }
         }
 
-        // DoParse method checks if the file is a TextFileObject and calls ReadFile if it is.
-        private static void DoParse(IPassing file)
+        // This method checks the files if it is a TextFileObject and if so will do to the ReadFile to read the file
+        private static void GoParsing(IPassing file)
         {
             if (file is TheFiles)
             {
@@ -27,61 +27,67 @@ namespace WeekFourAssignmentStructedText.Engines
             }
             else
             {
+                // If it is not apart of the TextFileObject, it will ask for a different parser for the file 
                 Console.WriteLine("You need a different parser for this file");
             }
         }
 
-        // ReadFile method reads the contents of a text file and splits it into lines based on the delimiter.
-        private static void ReadFile(TheFiles currentFile)
+        // This method reads the text in the files and will make each line go through the delimiter and writeout the text without the things in the delimiter
+        private static void ReadFile(TheFiles outputFile)
         {
-            List<string[]> Items = new List<string[]>();
+            // Lines getting added to the list to be parsed
+            List<string[]> LineAdd = new List<string[]>();
             string[] values;
 
-            // Use StreamReader to read the file line by line.
-            using (StreamReader sr = new StreamReader(currentFile.Path))
+            // Streamreader reads the file from the file path one line at a time, Credit to Assignment #3 that helped remember about streamreader
+            using (StreamReader sourceRead = new StreamReader(outputFile.Path))
             {
-                string? currentLine = sr.ReadLine();
+                // Reads lines from the source file as a string
+                string? outputLine = sourceRead.ReadLine();
 
-                while (currentLine != null)
+                while (outputLine != null)
                 {
-                    values = currentLine.Split(currentFile.Delimiter);
-                    Items.Add(values);
-                    currentLine = sr.ReadLine();
+                    values = outputLine.Split(outputFile.Delimiter);
+                    LineAdd.Add(values);
+                    outputLine = sourceRead.ReadLine();
                 }
             }
 
-            // Call WriteFile to write the parsed data to a new file.
-            WriteFile(currentFile.Path, Items);
+            // The new lines from that were added after being delimited will go to the WriteFile method to be written into a new file
+            WriteFile(outputFile.Path, LineAdd);
         }
 
-        // WriteFile method writes the parsed data to a new text file.
+        // This method writes the parsed data that is delimited into a new file
         private static void WriteFile(string path, List<string[]> items)
         {
-            // Create a new file name based on the original file name.
-            string newFileName = path.Substring(path.LastIndexOf('\\') + 1);
-            newFileName = newFileName.Insert(newFileName.LastIndexOf('.'), "_out");
-            newFileName = newFileName.Replace(newFileName.Substring(newFileName.LastIndexOf('.')), ".txt");
 
-            // Construct the new file path.
-            string newPath = path.Substring(0, path.LastIndexOf('\\') + 1) + "\\" + newFileName;
+            // Creates a new file to output the parsing results, Learned from: https://stackoverflow.com/questions/5127150/how-can-i-get-a-substring-from-a-file-path-in-c
+            string results = path.Substring(path.LastIndexOf('\\') + 1);
+            results = results.Insert(results.LastIndexOf('.'), "_out");
+            results = results.Replace(results.Substring(results.LastIndexOf('.')), ".txt");
 
-            // Use FileStream and StreamWriter to create and write to the new file.
-            using (FileStream fs = File.Create(newPath))
+            // Creates a new File path for the result files, Learned from: https://stackoverflow.com/questions/24925152/taking-the-last-substring-of-a-string-in-c-sharp
+            var newPath = path.Substring(0, path.LastIndexOf('\\') + 1) + "\\" + results;
+
+            // Use FileStream to create a new File Path for the output files to go to, Credit to: https://learn.microsoft.com/en-us/dotnet/api/system.io.filestream?view=net-7.0 for helping me with the new file path
+            using (FileStream filesource = File.Create(newPath))
             {
-                using (StreamWriter sw = new StreamWriter(fs))
+                // Use StreamWriter to write the information to the new files, Credit to Assignment #3 that helped remember about streamwriter
+                using (StreamWriter sourceWrite = new StreamWriter(filesource))
                 {
+                    // Credit to Leo's In Class Demo which helped me with the for(int x = 0; x < items.Count; x++) and for (int i = 0; i < items[x].Length; i++)
                     for (int x = 0; x < items.Count; x++)
                     {
-                        sw.Write($"Line#{x + 1} :");
+                        sourceWrite.Write($"Line Number{x + 1} :");
                         for (int i = 0; i < items[x].Length; i++)
                         {
-                            sw.Write($"Field#{i + 1}={items[x][i]} ");
+                            sourceWrite.Write($"Field Number {i + 1}={items[x][i]} ");
                             if (i != items[x].Length - 1)
                             {
-                                sw.Write("==> ");
+                                sourceWrite.Write("==> ");
                             }
                         }
-                        sw.Write("\n");
+                        sourceWrite.Write("\n");
                     }
                 }
             }

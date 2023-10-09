@@ -9,29 +9,32 @@ namespace WeekFourAssignmentStructedText
     {
         static void Main(string[] args)
         {
-            // Define an array to store file paths and a list to store IParsable objects.
+            // Creates an array that holds the different file types and creates a list to store the objects of the file into IPassing
             string[] filePaths;
-            List<IPassing> toParse = new List<IPassing>();
-
+            List<IPassing> goParsing = new List<IPassing>();
+            // The directory path to the files, learned from Assignment #3
             string path = Environment.CurrentDirectory + @"\Files";
-
+            // This is error check to make sure Folder exists and if it doesn't it will read this, learned from: https://learn.microsoft.com/en-us/dotnet/api/system.io.directory.exists?view=net-7.0 for directory.exists
             if (!Directory.Exists(path))
             {
                 Console.WriteLine("Folder does not exist.");
             }
+            // This when the file is there and will read the files
             else
             {
-                // Get an array of file paths in the specified folder.
+                // Creats a lists the different file paths that is in specific folder
                 filePaths = Directory.GetFiles(path);
 
-                // Iterate through the file paths and create TextFileObject instances for parsing.
+                // Goes through the files and creates instances of the files to be parsed in the EngineParsing class
                 foreach (string filePath in filePaths)
                 {
-                    toParse.Add(new TheFiles(filePath));
+                    // Adds the file to the list that will be parsed
+                    goParsing.Add(new TheFiles(filePath));
                 }
 
-                // Start the parsing process using the ParserEngine class.
-                EngineParsing.BeginParse(toParse);
+                Console.WriteLine("Files have been Parsed!!!");
+                // Begins parsing the files in the EngineParsing class
+                EngineParsing.BeginParse(goParsing);
             }
         }
     }
