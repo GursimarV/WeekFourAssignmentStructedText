@@ -9,13 +9,6 @@ namespace WeekFourAssignmentStructedText.JSONInfo
 {
     internal class JSONPhoneNum
     {
-        /*
-        [JsonPropertyName("type")]
-        public string type;
-        [JsonPropertyName("number")]
-        public string number;
-        [JsonPropertyName("CanContact")]
-        public bool CanContact;
-        */
+       
     }
 }

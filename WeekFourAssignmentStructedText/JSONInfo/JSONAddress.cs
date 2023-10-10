@@ -10,15 +10,6 @@ namespace WeekFourAssignmentStructedText.JSONInfo
 {
     internal class JSONAddress
     {
-        /*
-        [JsonPropertyName("streetAddress")]
-        public string streetAddress;
-        [JsonPropertyName("city")]
-        public string city;
-        [JsonPropertyName("state")]
-        public string state;
-        [JsonPropertyName("zipCode")]
-        public string zipCode;
-        */
+        
     }
 }

@@ -10,16 +10,7 @@ namespace WeekFourAssignmentStructedText.JSONInfo
     {
         public JSONNames() 
         {
-            /*
-            [JsonPropertyName("firstName")]
-            public string firstName;
-            [JsonPropertyName("lastName")]
-            public string lastName;
-            [JsonPropertyName("isEnrolled")]
-            public bool isEnrolled;
-            [JsonPropertyName("YearsEnrolled")]
-            public int YearsEnrolled;
-            */
+          
         }  
     }
 }
