@@ -11,6 +11,8 @@ namespace WeekFourAssignmentStructedText.Interfaces
     {
         CSV,
         Pipe,
+        Json,
+        XML,
         None
     }
     // The interface for the engine

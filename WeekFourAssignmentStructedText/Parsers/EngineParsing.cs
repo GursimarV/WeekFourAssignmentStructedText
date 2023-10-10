@@ -3,11 +3,13 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using WeekFourAssignmentStructedText.DifferentFileTypes;
 using WeekFourAssignmentStructedText.Interfaces;
 
-namespace WeekFourAssignmentStructedText.Engines
+namespace WeekFourAssignmentStructedText.Parsers
 {
-    public static class EngineParsing
+    //Help from Leo's InClassDemo with reminding to make this an abstract class since the abstract class can be used by other classes like JSONFileParse and XMLFileParse
+    abstract class EngineParsing
     {
         // This begins parsing the files from the list from Program class and Parses each file
         public static void BeginParse(List<IPassing> fileCollection)
@@ -33,7 +35,7 @@ namespace WeekFourAssignmentStructedText.Engines
         }
 
         // This method reads the text in the files and will make each line go through the delimiter and writeout the text without the things in the delimiter
-        private static void ReadFile(TheFiles outputFile)
+        public static void ReadFile(TheFiles outputFile)
         {
             // Lines getting added to the list to be parsed
             List<string[]> LineAdd = new List<string[]>();
@@ -47,7 +49,7 @@ namespace WeekFourAssignmentStructedText.Engines
 
                 while (outputLine != null)
                 {
-                    values = outputLine.Split(outputFile.Delimiter);
+                    values = outputLine.Split(outputFile.Delimiters);
                     LineAdd.Add(values);
                     outputLine = sourceRead.ReadLine();
                 }
@@ -58,7 +60,7 @@ namespace WeekFourAssignmentStructedText.Engines
         }
 
         // This method writes the parsed data that is delimited into a new file
-        private static void WriteFile(string path, List<string[]> items)
+        public static void WriteFile(string path, List<string[]> items)
         {
 
             // Creates a new file to output the parsing results, Learned from: https://stackoverflow.com/questions/5127150/how-can-i-get-a-substring-from-a-file-path-in-c
@@ -67,7 +69,7 @@ namespace WeekFourAssignmentStructedText.Engines
             results = results.Replace(results.Substring(results.LastIndexOf('.')), ".txt");
 
             // Creates a new File path for the result files, Learned from: https://stackoverflow.com/questions/24925152/taking-the-last-substring-of-a-string-in-c-sharp
-            var newPath = path.Substring(0, path.LastIndexOf('\\') + 1) + "\\" + results;
+            string newPath = path.Substring(0, path.LastIndexOf('\\') + 1) + "\\" + results;
 
             // Use FileStream to create a new File Path for the output files to go to, Credit to: https://learn.microsoft.com/en-us/dotnet/api/system.io.filestream?view=net-7.0 for helping me with the new file path
             using (FileStream filesource = File.Create(newPath))
@@ -78,13 +80,13 @@ namespace WeekFourAssignmentStructedText.Engines
                     // Credit to Leo's In Class Demo which helped me with the for(int x = 0; x < items.Count; x++) and for (int i = 0; i < items[x].Length; i++)
                     for (int x = 0; x < items.Count; x++)
                     {
-                        sourceWrite.WriteLine($"Line Number{x + 1} :");
+                        sourceWrite.Write($"Line Number{x + 1} :");
                         for (int i = 0; i < items[x].Length; i++)
                         {
-                            sourceWrite.WriteLine($"Field Number {i + 1}={items[x][i]} ");
+                            sourceWrite.Write($"Field Number{i + 1}={items[x][i]} ");
                             if (i != items[x].Length - 1)
                             {
-                                sourceWrite.WriteLine("==> ");
+                                sourceWrite.Write("==> ");
                             }
                         }
                         sourceWrite.WriteLine("\n");
