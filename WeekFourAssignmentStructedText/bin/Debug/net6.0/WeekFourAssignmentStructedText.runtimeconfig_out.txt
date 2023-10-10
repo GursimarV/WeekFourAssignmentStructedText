@@ -1,0 +1,18 @@
+Line Number1 :Field Number1={ 
+
+Line Number2 :Field Number1=  "runtimeOptions": { 
+
+Line Number3 :Field Number1=    "tfm": "net6.0", 
+
+Line Number4 :Field Number1=    "framework": { 
+
+Line Number5 :Field Number1=      "name": "Microsoft.NETCore.App", 
+
+Line Number6 :Field Number1=      "version": "6.0.0" 
+
+Line Number7 :Field Number1=    } 
+
+Line Number8 :Field Number1=  } 
+
+Line Number9 :Field Number1=} 
+

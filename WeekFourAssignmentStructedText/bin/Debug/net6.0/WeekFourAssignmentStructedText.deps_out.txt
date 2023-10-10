@@ -1,0 +1,46 @@
+Line Number1 :Field Number1={ 
+
+Line Number2 :Field Number1=  "runtimeTarget": { 
+
+Line Number3 :Field Number1=    "name": ".NETCoreApp,Version=v6.0", 
+
+Line Number4 :Field Number1=    "signature": "" 
+
+Line Number5 :Field Number1=  }, 
+
+Line Number6 :Field Number1=  "compilationOptions": {}, 
+
+Line Number7 :Field Number1=  "targets": { 
+
+Line Number8 :Field Number1=    ".NETCoreApp,Version=v6.0": { 
+
+Line Number9 :Field Number1=      "WeekFourAssignmentStructedText/1.0.0": { 
+
+Line Number10 :Field Number1=        "runtime": { 
+
+Line Number11 :Field Number1=          "WeekFourAssignmentStructedText.dll": {} 
+
+Line Number12 :Field Number1=        } 
+
+Line Number13 :Field Number1=      } 
+
+Line Number14 :Field Number1=    } 
+
+Line Number15 :Field Number1=  }, 
+
+Line Number16 :Field Number1=  "libraries": { 
+
+Line Number17 :Field Number1=    "WeekFourAssignmentStructedText/1.0.0": { 
+
+Line Number18 :Field Number1=      "type": "project", 
+
+Line Number19 :Field Number1=      "serviceable": false, 
+
+Line Number20 :Field Number1=      "sha512": "" 
+
+Line Number21 :Field Number1=    } 
+
+Line Number22 :Field Number1=  } 
+
+Line Number23 :Field Number1=} 
+
