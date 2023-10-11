@@ -33,7 +33,7 @@ namespace WeekFourAssignmentStructedText.Parsers
                 Console.WriteLine("You need a different parser for this file");
             }
         }
-
+        
         // This method reads the text in the files and will make each line go through the delimiter and writeout the text without the things in the delimiter
         public static void ReadFile(TheFiles outputFile)
         {
@@ -45,13 +45,13 @@ namespace WeekFourAssignmentStructedText.Parsers
             using (StreamReader sourceRead = new StreamReader(outputFile.Path))
             {
                 // Reads lines from the source file as a string
-                string? outputLine = sourceRead.ReadLine();
+                string? outputline = sourceRead.ReadLine();
 
-                while (outputLine != null)
+                while (outputline != null)
                 {
-                    values = outputLine.Split(outputFile.Delimiters);
+                    values = outputline.Split(outputFile.Delimiters);
                     LineAdd.Add(values);
-                    outputLine = sourceRead.ReadLine();
+                    outputline = sourceRead.ReadLine();
                 }
             }
 
@@ -80,10 +80,10 @@ namespace WeekFourAssignmentStructedText.Parsers
                     // Credit to Leo's In Class Demo which helped me with the for(int x = 0; x < items.Count; x++) and for (int i = 0; i < items[x].Length; i++)
                     for (int x = 0; x < items.Count; x++)
                     {
-                        sourceWrite.Write($"Line Number{x + 1} :");
+                        sourceWrite.Write($"Line #{x + 1} :");
                         for (int i = 0; i < items[x].Length; i++)
                         {
-                            sourceWrite.Write($"Field Number{i + 1}={items[x][i]} ");
+                            sourceWrite.Write($"Field #{i + 1}={items[x][i]} ");
                             if (i != items[x].Length - 1)
                             {
                                 sourceWrite.Write("==> ");
@@ -91,6 +91,7 @@ namespace WeekFourAssignmentStructedText.Parsers
                         }
                         sourceWrite.WriteLine("\n");
                     }
+                    
                 }
             }
         }
