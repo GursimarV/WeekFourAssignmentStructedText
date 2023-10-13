@@ -6,38 +6,17 @@ using System.Threading.Tasks;
 using WeekFourAssignmentStructedText.DifferentFileTypes;
 using WeekFourAssignmentStructedText.Interfaces;
 
-namespace WeekFourAssignmentStructedText.Parsers
+namespace WeekFourAssignmentStructedText.Engines
 {
     //Help from Leo's InClassDemo with reminding to make this an abstract class since the abstract class can be used by other classes like JSONFileParse and XMLFileParse
     abstract class EngineParsing
     {
-        // This begins parsing the files from the list from Program class and Parses each file
-        public static void BeginParse(List<IPassing> fileCollection)
-        {
-            foreach (var file in fileCollection)
-            {
-                GoParsing(file);
-            }
-        }
 
-        // This method checks the files if it is a TextFileObject and if so will do to the ReadFile to read the file
-        private static void GoParsing(IPassing file)
-        {
-            if (file is TheFiles)
-            {
-                ReadFile((TheFiles)file);
-            }
-            else
-            {
-                // If it is not apart of the TextFileObject, it will ask for a different parser for the file 
-                Console.WriteLine("You need a different parser for this file");
-            }
-        }
-        
         // This method reads the text in the files and will make each line go through the delimiter and writeout the text without the things in the delimiter
         public static void ReadFile(TheFiles outputFile)
         {
             // Lines getting added to the list to be parsed
+            EngineParsing resultFile = (EngineParsing)outputFile;
             List<string[]> LineAdd = new List<string[]>();
             string[] values;
 
@@ -49,7 +28,7 @@ namespace WeekFourAssignmentStructedText.Parsers
 
                 while (outputline != null)
                 {
-                    values = outputline.Split(outputFile.Delimiters);
+                    values = outputline.Split(resultFile.Delimiter).ToList();
                     LineAdd.Add(values);
                     outputline = sourceRead.ReadLine();
                 }
@@ -91,7 +70,7 @@ namespace WeekFourAssignmentStructedText.Parsers
                         }
                         sourceWrite.WriteLine("\n");
                     }
-                    
+
                 }
             }
         }

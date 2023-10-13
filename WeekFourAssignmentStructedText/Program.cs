@@ -5,7 +5,7 @@
 using System.IO;
 using System.Runtime.CompilerServices;
 using WeekFourAssignmentStructedText.DifferentFileTypes;
-using WeekFourAssignmentStructedText.Parsers;
+using WeekFourAssignmentStructedText.Engines;
 using WeekFourAssignmentStructedText.Interfaces;
 
 namespace WeekFourAssignmentStructedText
@@ -14,15 +14,16 @@ namespace WeekFourAssignmentStructedText
     {
         static void Main(string[] args)
         {
+
             // Creates an array that holds the different file types and creates a list to store the objects of the file into IPassing
             string[] filePaths;
             List<IPassing> goParsing = new List<IPassing>();
             // The directory path to the files, learned from Assignment #3
-            var path = Environment.CurrentDirectory + @"\Files";
+            string path = $@"{Directory.GetCurrentDirectory}\Files";
             // This is error check to make sure Folder exists and if it doesn't it will read this, learned from: https://learn.microsoft.com/en-us/dotnet/api/system.io.directory.exists?view=net-7.0 for directory.exists
             if (!Directory.Exists(path))
             {
-                Console.WriteLine("Folder does not exist.");
+                ErrorChecking.Instance.ShowError("The folder in the specific path doesn't exist!");
             }
             // This when the file is there and will read the files
             else
@@ -38,10 +39,9 @@ namespace WeekFourAssignmentStructedText
                 }
                 
                 // Begins parsing the files in the EngineParsing class
-                EngineParsing.BeginParse(goParsing);
+                ParsesFiles.BeginParse(goParsing);
 
-                //Writes out that the files have been parsed just to show that it works
-                Console.WriteLine("Files have been Parsed!!!");
+                ErrorChecking.Instance.StreamError(path);
             }
         }
     }

@@ -6,19 +6,22 @@ using System.Threading.Tasks;
 
 namespace WeekFourAssignmentStructedText.Interfaces
 {
-    // The different types of files
-    public enum FileType
+    internal interface IPassing
     {
-        CSV,
-        Pipe,
-        Json,
-        XML,
-        None
-    }
-    // The interface for the engine
-    public interface IPassing
-    {
-        string Path { get; set; }
-        public FileType Type { get; set; }
+        // The different types of files
+        public enum FileType
+        {
+            CSV,
+            Pipe,
+            Json,
+            XML,
+            None
+        }
+        // The interface for the engine
+        public interface IPassing
+        {
+            string Path { get; set; }
+            public FileType Type { get; set; }
+        }
     }
 }

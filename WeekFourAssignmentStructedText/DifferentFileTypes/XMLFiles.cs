@@ -3,13 +3,13 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using WeekFourAssignmentStructedText.Interfaces;
+using static WeekFourAssignmentStructedText.Interfaces.IPassing;
 
 namespace WeekFourAssignmentStructedText.DifferentFileTypes
 {
-    internal class XMLFile : IPassing
+    internal class XMLFiles : IPassing
     {
-        public XMLFile(string path)
+        public XMLFiles(string path)
         {
             Path = path;
             Type = FileType.XML;

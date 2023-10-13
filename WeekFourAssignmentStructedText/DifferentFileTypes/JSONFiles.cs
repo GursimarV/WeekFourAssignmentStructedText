@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.VisualBasic.FileIO;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -7,14 +8,13 @@ using WeekFourAssignmentStructedText.Interfaces;
 
 namespace WeekFourAssignmentStructedText.DifferentFileTypes
 {
-    internal class JSONFile: IPassing
+    internal class JSONFiles: IPassing
     {
-        public JSONFile(string path) 
+        public JSONFiles(string path)
         {
             Path = path;
             Type = FileType.Json;
         }
-
         public string Path { get; set; }
 
         public FileType Type { get; set; }

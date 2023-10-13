@@ -20,12 +20,10 @@ namespace WeekFourAssignmentStructedText.DifferentFileTypes
         public string Path { get; set; }
         public FileType Type { get; set; }
         public char DeLimiter { get; private set; }
-        public char Delimiters { get; internal set; }
 
         // Checking the different File Types and the Delimiters with each file type and if its neither it returns nothing
         private FileType CheckType()
         {
-
             string extension = Path.Substring(Path.LastIndexOf('.') + 1);
             switch (extension)
             {
