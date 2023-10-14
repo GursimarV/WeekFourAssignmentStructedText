@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using WeekFourAssignmentStructedText.Interfaces;
+using static WeekFourAssignmentStructedText.Interfaces.IPassing;
 
 namespace WeekFourAssignmentStructedText.DifferentFileTypes
 {
@@ -15,6 +16,7 @@ namespace WeekFourAssignmentStructedText.DifferentFileTypes
             Path = path;
             Type = FileType.Json;
         }
+
         public string Path { get; set; }
 
         public FileType Type { get; set; }

@@ -8,18 +8,22 @@ using System.Xml;
 using System.Xml.Serialization;
 using WeekFourAssignmentStructedText.Interfaces;
 using WeekFourAssignmentStructedText.XMLInfo;
+using WeekFourAssignmentStructedText.DifferentFileTypes;
 
 namespace WeekFourAssignmentStructedText.Engines
 {
     internal class XMLEngine : EngineParsing
     {
         //Had help from Powerpoint Week 5 by Leo
+        
         public override void ReadFile(IPassing currentFile)
         {
-            List<List<string>> Item = new List<List<string>>();
+            List<List<string>> Items = new List<List<string>>();
+            List<string[]> arrayOfLists = Items.Select(innerList => innerList.ToArray()).ToList();
 
             XmlDocument xmlDoc = new XmlDocument();
             xmlDoc.Load(currentFile.Path);
+
 
             XmlNodeList itemNodes = xmlDoc.DocumentElement.SelectNodes("item");
 
@@ -31,12 +35,12 @@ namespace WeekFourAssignmentStructedText.Engines
                     Values.Add(childNode.InnerText);
 
                 }
-                Item.Add(Values);
+                Items.Add(Values);
             }
 
             // Call WriteFile to write the parsed data to a new file.
-            WriteFile(currentFile.Path, Item);
-            
+            WriteFile(currentFile.Path, arrayOfLists);
         }
+
     }
 }

@@ -6,6 +6,7 @@ using System.Security.Cryptography.X509Certificates;
 using System.Text;
 using System.Threading.Tasks;
 using WeekFourAssignmentStructedText.Interfaces;
+using static WeekFourAssignmentStructedText.Interfaces.IPassing;
 
 namespace WeekFourAssignmentStructedText.DifferentFileTypes
 {
@@ -18,29 +19,31 @@ namespace WeekFourAssignmentStructedText.DifferentFileTypes
         }
 
         public string Path { get; set; }
-        public FileType Type { get; set; }
-        public char DeLimiter { get; private set; }
 
-        // Checking the different File Types and the Delimiters with each file type and if its neither it returns nothing
+        public FileType Type { get; set; }
+
+        public char Delimiter { get; private set; }
+
+        // Method to check the file extension and determine the FileType and delimiter.
+        
         private FileType CheckType()
         {
             string extension = Path.Substring(Path.LastIndexOf('.') + 1);
             switch (extension)
             {
-                // The different files and returns the FileType, learned from Leo's InClassDemo
                 case "csv":
-                    DeLimiter = ',';
+                    Delimiter = ',';
                     return FileType.CSV;
-
                 case "txt":
-                    DeLimiter = '|';
-                    return FileType.Pipe;
-
+                    Delimiter = '|';
+                    return Type = FileType.Pipe;
                 default:
+                    ErrorChecking.Instance.ShowError($"This file type is not supported by the Delimited Parser.");
                     return Type = FileType.None;
             }
         }
-
+        
+        
         public override string ToString()
         {
             return Path;

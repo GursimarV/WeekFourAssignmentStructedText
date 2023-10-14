@@ -19,7 +19,9 @@ namespace WeekFourAssignmentStructedText
             string[] filePaths;
             List<IPassing> goParsing = new List<IPassing>();
             // The directory path to the files, learned from Assignment #3
-            string path = $@"{Directory.GetCurrentDirectory}\Files";
+            string directory = "Files";
+            string path = Path.Combine(Directory.GetCurrentDirectory(), directory);
+
             // This is error check to make sure Folder exists and if it doesn't it will read this, learned from: https://learn.microsoft.com/en-us/dotnet/api/system.io.directory.exists?view=net-7.0 for directory.exists
             if (!Directory.Exists(path))
             {

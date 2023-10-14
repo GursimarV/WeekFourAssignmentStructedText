@@ -2,36 +2,40 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Text.Json.Serialization;
+using System.Text.Json;
 using System.Threading.Tasks;
 using WeekFourAssignmentStructedText.Interfaces;
+using WeekFourAssignmentStructedText.DifferentFileTypes;
 using WeekFourAssignmentStructedText.JSONInfo;
+using Newtonsoft.Json;
 
 namespace WeekFourAssignmentStructedText.Engines
 {
     internal class JSONEngine : EngineParsing
     {
         //Had help from Powerpoint Week 5 by Leo
-        public override void ReadFile(IPassing currentFile) 
+        public override void ReadFile(IPassing outputFile)
         {
-            List<List<string>> Items = new List<List<string>>();
-            List<string> Values = new List<string>();
-            Student currentStudent;
-            using (StreamReader sourceRead = new StreamReader(currentFile.Path))
-            {
-                currentStudent = JsonConvert.DeserializeObject<JSONNames>(sourceRead.ReadToEnd());
+            //List<List<string>> Lines = new List<List<string>>();
+            List<string[]> Lines = new List<string[]>();
+            List<string> Result = new List<string>();
 
-                using (StreamWriter sourceWrite =  new StreamWriter(currentFile.Path))
-                {
-                    sourceWrite.WriteLine($"Line#1 : {currentStudent.ToString()}");
-                }
+            JSONNames currentNames;
+            using (StreamReader sourceRead = new StreamReader(outputFile.Path))
+            {
+                currentNames = JsonConvert.DeserializeObject<JSONNames>(sourceRead.ReadToEnd());
             }
 
-            Values = currentStudent.GetValues();
+            Result = currentNames.GetValues();
 
-            Items.Add(Values);
+            string[] ResultArray = Result.ToArray();
+
+            Lines.Add(ResultArray);
 
             // Call WriteFile to write the parsed data to a new file.
-            WriteFile(currentFile.Path, Items);
+
+            WriteFile(outputFile.Path, Lines);
         }
     }
 }

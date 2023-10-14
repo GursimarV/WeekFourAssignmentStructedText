@@ -9,16 +9,17 @@ using WeekFourAssignmentStructedText.Interfaces;
 namespace WeekFourAssignmentStructedText.Engines
 {
     //Help from Leo's InClassDemo with reminding to make this an abstract class since the abstract class can be used by other classes like JSONFileParse and XMLFileParse
-    abstract class EngineParsing
+    internal class EngineParsing
     {
 
         // This method reads the text in the files and will make each line go through the delimiter and writeout the text without the things in the delimiter
-        public static void ReadFile(TheFiles outputFile)
+        public virtual void ReadFile(IPassing outputFile)
         {
             // Lines getting added to the list to be parsed
-            EngineParsing resultFile = (EngineParsing)outputFile;
-            List<string[]> LineAdd = new List<string[]>();
-            string[] values;
+            TheFiles resultFile = (TheFiles)outputFile;
+            List<List<string>> LineAdd = new List<List<string>>();
+            List<string[]> stringArray = LineAdd.Select(list => list.ToArray()) .ToList();
+            List<string> values;
 
             // Streamreader reads the file from the file path one line at a time, Credit to Assignment #3 that helped remember about streamreader
             using (StreamReader sourceRead = new StreamReader(outputFile.Path))
@@ -28,6 +29,7 @@ namespace WeekFourAssignmentStructedText.Engines
 
                 while (outputline != null)
                 {
+                    //Received help from Grace Anders to fix the problem
                     values = outputline.Split(resultFile.Delimiter).ToList();
                     LineAdd.Add(values);
                     outputline = sourceRead.ReadLine();
@@ -35,7 +37,7 @@ namespace WeekFourAssignmentStructedText.Engines
             }
 
             // The new lines from that were added after being delimited will go to the WriteFile method to be written into a new file
-            WriteFile(outputFile.Path, LineAdd);
+            WriteFile(outputFile.Path, stringArray);
         }
 
         // This method writes the parsed data that is delimited into a new file

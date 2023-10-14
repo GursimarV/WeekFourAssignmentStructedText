@@ -6,9 +6,6 @@ using System.Threading.Tasks;
 
 namespace WeekFourAssignmentStructedText.Interfaces
 {
-    internal interface IPassing
-    {
-        // The different types of files
         public enum FileType
         {
             CSV,
@@ -17,11 +14,10 @@ namespace WeekFourAssignmentStructedText.Interfaces
             XML,
             None
         }
-        // The interface for the engine
         public interface IPassing
         {
-            string Path { get; set; }
+            public string Path { get; set; }
+
             public FileType Type { get; set; }
         }
-    }
 }

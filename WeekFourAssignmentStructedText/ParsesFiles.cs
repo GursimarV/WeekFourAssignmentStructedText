@@ -24,9 +24,9 @@ namespace WeekFourAssignmentStructedText
                     return new TheFiles(Path);
 
                 case "json":
-                    return new JSONFile(Path);
+                    return new JSONFiles(Path);
                 case "xml":
-                    return new XMLFile(Path);
+                    return new XMLFiles(Path);
                 default:
                     ErrorChecking.Instance.ShowError($"The file type of {Path} doesn't work with the current parser engine.");
                     return null;
@@ -47,17 +47,17 @@ namespace WeekFourAssignmentStructedText
             if (file is TheFiles)
             {
                 EngineParsing engineParse = new EngineParsing();
-                engineParse.ReadFile((EngineParsing)file);
+                engineParse.ReadFile((TheFiles)file);
             }
-            else if (file is JSONFile)
+            else if (file is JSONFiles)
             {
                 JSONEngine jsonParse = new JSONEngine();
-                jsonParse.ReadFile((JSONEngine)file); 
+                jsonParse.ReadFile((JSONFiles)file); 
             }
-            else if (file is XMLFile)
+            else if (file is XMLFiles)
             {
                 XMLEngine xmlParse = new XMLEngine();
-                xmlParse.ReadFile((XMLEngine)file);
+                xmlParse.ReadFile((XMLFiles)file);
             }
             else
             {
