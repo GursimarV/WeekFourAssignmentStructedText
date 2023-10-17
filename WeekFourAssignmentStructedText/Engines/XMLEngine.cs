@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.VisualBasic;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Resources;
@@ -6,41 +7,57 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Xml;
 using System.Xml.Serialization;
-using WeekFourAssignmentStructedText.Interfaces;
+using WeekFourAssignmentStructedText.FileExAndDe;
+using WeekFourAssignmentStructedText.Parse;
 using WeekFourAssignmentStructedText.XMLInfo;
-using WeekFourAssignmentStructedText.DifferentFileTypes;
 
 namespace WeekFourAssignmentStructedText.Engines
 {
     internal class XMLEngine : EngineParsing
     {
-        //Had help from Powerpoint Week 5 by Leo
-        
-        public override void ReadFile(IPassing currentFile)
+        //The File Processing takes the xml file in the list of files that goes through the interface and will process the lines in the file individually
+        public override List<ErrorChecking> FileProcessing(List<IPassing> FileToProcess)
         {
-            List<List<string>> Items = new List<List<string>>();
-            List<string[]> arrayOfLists = Items.Select(innerList => innerList.ToArray()).ToList();
-
-            XmlDocument xmlDoc = new XmlDocument();
-            xmlDoc.Load(currentFile.Path);
-
-
-            XmlNodeList itemNodes = xmlDoc.DocumentElement.SelectNodes("item");
-
-            foreach (XmlNode node in itemNodes)
+            //List for checking errors while it is being processed
+            List<ErrorChecking> errors = new List<ErrorChecking>();
+            try
             {
-                List<string> Values = new List<string>();
-                foreach (XmlNode childNode in node.ChildNodes)
+                foreach (var file in FileToProcess)
                 {
-                    Values.Add(childNode.InnerText);
+                    string writePath = file.FilePath.Replace(file.Extension, $"_out{FileExtendAndDeLimit.FileExtensions.Text}");
 
+                    if (File.Exists(writePath))
+                    {
+                        File.Delete(writePath);
+                    }
+
+                    //This part learned from week 5 presentation
+                    //Reading the XML file with FileStream and the data is being return from File.Open
+                    using (var fs = File.Open(file.FilePath, FileMode.Open))
+                    {
+                        //This will process the file and I'm saying the Market class is the root class
+                        XmlSerializer serializer = new XmlSerializer(typeof(Market));
+                        var marketInventory = (Market?)serializer.Deserialize(fs) ?? new Market();
+
+                        using (StreamWriter sourceWrite = new StreamWriter(writePath, true))
+                        {
+                            sourceWrite.WriteLine();
+                            sourceWrite.Write(marketInventory.ToString());
+                        }
+                    }
                 }
-                Items.Add(Values);
+            }
+            //To catch errors that are in the code, learned from in class demo in week 5
+            catch (IOException ioe)
+            {
+                errors.Add(new ErrorChecking(ioe.Message, ioe.Source ?? "Unknown"));
+            }
+            catch (Exception e)
+            {
+                errors.Add(new ErrorChecking(e.Message, e.Source ?? "Unknown"));
             }
 
-            // Call WriteFile to write the parsed data to a new file.
-            WriteFile(currentFile.Path, arrayOfLists);
+            return errors;
         }
-
     }
 }

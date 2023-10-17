@@ -11,6 +11,7 @@ namespace WeekFourAssignmentStructedText.JSONInfo
     internal class JSONAddress
     {
         //Had help from Powerpoint Week 5 by Leo
+        //The JsonPropertyName maps the json Key to the collection in the file
         [JsonPropertyName("streetAddress")]
         public string? StreetAddress;
 
@@ -25,7 +26,7 @@ namespace WeekFourAssignmentStructedText.JSONInfo
 
         public override string ToString()
         {
-            return $"{StreetAddress}, {City}, {State}, {PostalCode}";
+            return $"{StreetAddress ?? @"N/A"}, {City ?? @"N/A"}, {State ?? @"N/A"}, {PostalCode ?? @"N/A"}";
         }
     }
 }

@@ -1,80 +1,77 @@
-﻿using System;
+﻿using Microsoft.VisualBasic;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using WeekFourAssignmentStructedText.DifferentFileTypes;
-using WeekFourAssignmentStructedText.Interfaces;
+using WeekFourAssignmentStructedText.FileExAndDe;
+using WeekFourAssignmentStructedText.Parse;
 
 namespace WeekFourAssignmentStructedText.Engines
 {
     //Help from Leo's InClassDemo with reminding to make this an abstract class since the abstract class can be used by other classes like JSONFileParse and XMLFileParse
-    internal class EngineParsing
+    internal abstract class EngineParsing
     {
-
-        // This method reads the text in the files and will make each line go through the delimiter and writeout the text without the things in the delimiter
-        public virtual void ReadFile(IPassing outputFile)
+        //The File Processing takes the csv and pipe(txt) files in the list of files that goes through the interface and will process them individually 
+        public virtual List<ErrorChecking> FileProcessing(List<IPassing> FileToProcess)
         {
-            // Lines getting added to the list to be parsed
-            TheFiles resultFile = (TheFiles)outputFile;
-            List<List<string>> LineAdd = new List<List<string>>();
-            List<string[]> stringArray = LineAdd.Select(list => list.ToArray()) .ToList();
-            List<string> values;
+            //List for checking errors w
+            List<ErrorChecking> errors = new List<ErrorChecking>();
 
-            // Streamreader reads the file from the file path one line at a time, Credit to Assignment #3 that helped remember about streamreader
-            using (StreamReader sourceRead = new StreamReader(outputFile.Path))
+            try
             {
-                // Reads lines from the source file as a string
-                string? outputline = sourceRead.ReadLine();
-
-                while (outputline != null)
+                for (int i = 0; i < FileToProcess.Count; i++)
                 {
-                    //Received help from Grace Anders to fix the problem
-                    values = outputline.Split(resultFile.Delimiter).ToList();
-                    LineAdd.Add(values);
-                    outputline = sourceRead.ReadLine();
-                }
-            }
+                    Dictionary<int, string[]> lines = new Dictionary<int, string[]>();
+                    string writeFile = FileToProcess[i].FilePath.Replace(FileToProcess[i].Extension, $"_out{FileExtendAndDeLimit.FileExtensions.Text}");
 
-            // The new lines from that were added after being delimited will go to the WriteFile method to be written into a new file
-            WriteFile(outputFile.Path, stringArray);
-        }
-
-        // This method writes the parsed data that is delimited into a new file
-        public static void WriteFile(string path, List<string[]> items)
-        {
-
-            // Creates a new file to output the parsing results, Learned from: https://stackoverflow.com/questions/5127150/how-can-i-get-a-substring-from-a-file-path-in-c
-            string results = path.Substring(path.LastIndexOf('\\') + 1);
-            results = results.Insert(results.LastIndexOf('.'), "_out");
-            results = results.Replace(results.Substring(results.LastIndexOf('.')), ".txt");
-
-            // Creates a new File path for the result files, Learned from: https://stackoverflow.com/questions/24925152/taking-the-last-substring-of-a-string-in-c-sharp
-            string newPath = path.Substring(0, path.LastIndexOf('\\') + 1) + "\\" + results;
-
-            // Use FileStream to create a new File Path for the output files to go to, Credit to: https://learn.microsoft.com/en-us/dotnet/api/system.io.filestream?view=net-7.0 for helping me with the new file path
-            using (FileStream filesource = File.Create(newPath))
-            {
-                // Use StreamWriter to write the information to the new files, Credit to Assignment #3 that helped remember about streamwriter
-                using (StreamWriter sourceWrite = new StreamWriter(filesource))
-                {
-                    // Credit to Leo's In Class Demo which helped me with the for(int x = 0; x < items.Count; x++) and for (int i = 0; i < items[x].Length; i++)
-                    for (int x = 0; x < items.Count; x++)
+                    if (File.Exists(writeFile))
                     {
-                        sourceWrite.Write($"Line #{x + 1} :");
-                        for (int i = 0; i < items[x].Length; i++)
-                        {
-                            sourceWrite.Write($"Field #{i + 1}={items[x][i]} ");
-                            if (i != items[x].Length - 1)
-                            {
-                                sourceWrite.Write("==> ");
-                            }
-                        }
-                        sourceWrite.WriteLine("\n");
+                        File.Delete(writeFile);
                     }
 
+                    //Uses StreamReader to read the file, used from assignment 3 and 4
+                    using (StreamReader sourceRead = new StreamReader(FileToProcess[i].FilePath))
+                    {
+                        int lineIndex = 1;
+                        while (!sourceRead.EndOfStream)
+                        {
+                            var lineItems = sourceRead.ReadLine()?.Split(FileToProcess[i].Delimiter) ?? new string[0];
+                            lines.Add(lineIndex++, lineItems);
+                        }
+                    }
+
+                    //Uses StreamWriter to write out the processed files into a new file, used from assignment 3 and 4
+                    using (StreamWriter sourceWrite = new StreamWriter(writeFile, true))
+                    {
+                        sourceWrite.WriteLine($"Processed at: {DateTime.Now}");
+                        sourceWrite.WriteLine();
+                        foreach (var item in lines)
+                        {
+                            sourceWrite.Write($"Line#{item.Key}: ");
+
+                            for (int j = 0; j < item.Value.Length; j++)
+                            {
+                                sourceWrite.Write($"Field#{j + 1}={item.Value[j]}");
+                                if (!(j + 1 == item.Value.Length)) sourceWrite.Write(" ==> ");
+                            }
+                            sourceWrite.WriteLine();
+                            sourceWrite.WriteLine();
+                        }
+                    }
                 }
             }
+            //To catch errors that are in the code, learned from in class demo 
+            catch (IOException ioe)
+            {
+                errors.Add(new ErrorChecking(ioe.Message, ioe.Source ?? "Unknown"));
+            }
+            catch (Exception e)
+            {
+                errors.Add(new ErrorChecking(e.Message, e.Source ?? "Unknown"));
+            }
+
+            return errors;
         }
     }
 }

@@ -11,11 +11,12 @@ namespace WeekFourAssignmentStructedText.JSONInfo
     internal class JSONNames
     {
         //Had help from Powerpoint Week 5 by Leo
+        //This is the root of the Json file
         [JsonPropertyName("firstName")]
-        public string FirstName;
+        public string? FirstName;
 
         [JsonPropertyName("lastName")]
-        public string LastName;
+        public string? LastName;
 
         [JsonPropertyName("isEnrolled")]
         public bool IsEnrolled;
@@ -24,64 +25,29 @@ namespace WeekFourAssignmentStructedText.JSONInfo
         public int YearsEnrolled;
 
         [JsonPropertyName("address1")]
-        public JSONAddress Address1;
+        public JSONAddress? Address1;
 
         [JsonPropertyName("address2")]
-        public string? Address2;
+        public JSONAddress? Address2;
 
         [JsonPropertyName("phoneNumbers")]
         public List<JSONPhoneNum> PhoneNumbers = new List<JSONPhoneNum>();  
 
         private StringBuilder stringBuild = new StringBuilder();
 
-        public List<string> GetValues()
+        public override string ToString()
         {
-            List<string> values = new List<string>();
-            var properties = this.GetType().GetFields();
-
-            foreach (var prop in properties)
+            //Lays out the text and the information from the processed file
+            stringBuild.Append($"Name: {LastName ?? "Not available"}, {FirstName ?? "Not available"}\n");
+            stringBuild.Append(IsEnrolled ? "Student is currently enrolled.\n" : "Student is not enrolled.\n");
+            stringBuild.Append($"Student enrolled for {YearsEnrolled} years\n");
+            stringBuild.Append($"Primary Address: {Address1?.ToString() ?? "No primary address"}\n");
+            stringBuild.Append($"Secondary Address: {Address2?.ToString() ?? "No secondary address"}\n");
+            for (int i = 0; i < PhoneNumbers?.Count; i++)
             {
-
-                var value = prop.GetValue(this);
-
-                if (value is string)
-                {
-                    var addProperties = value.GetType().GetFields();
-
-                    foreach (var addProp in addProperties)
-                    {
-                        var addValue = addProp.GetValue(value);
-                        values.Add(addValue.ToString());
-                    }
-                }
-                else if (value is List<JSONPhoneNum>)
-                {
-                    foreach (var phone in (List<JSONPhoneNum>)value)
-                    {
-                        var phoneProperties = phone.GetType().GetFields();
-
-                        foreach (var phoneProp in phoneProperties)
-                        {
-                            var phoneValue = phoneProp.GetValue(phone);
-                            values.Add(phoneValue.ToString());
-                        }
-                    }
-
-                }
-                else
-                {
-                    if (value != null)
-                    {
-                        values.Add(value.ToString());
-                    }
-                    else
-                    {
-                        values.Add("");
-                    }
-                }
+                stringBuild.Append($"Phone Number {i + 1}: {PhoneNumbers[i].ToString()}");
             }
-
-            return values;
+            return stringBuild.ToString();
         }
     }
 }
